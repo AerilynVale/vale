@@ -1,7 +1,7 @@
 # Vale
 
 Vale is a 64-bit operating system available for the x86_64 architecture. 
-At it's current state, Vale is extremely limited and has not yet been tested on real hardware.
+At its current state, Vale is extremely limited and has not yet been tested on real hardware.
 
 I plan to make Vale Unix-like and POSIX-complaint.
 
@@ -31,5 +31,5 @@ Required build tools:
 * Limine 11 `limine`
 * QEMU `qemu-system-x86_64` if you want to emulate Vale.
 
-In the project route, simply run `make`; an ISO file will be generated in ./build.
+In the project root, simply run `make`; an ISO file will be generated in ./build.
 Alternatively, type `make run` to emulate Vale using QEMU.

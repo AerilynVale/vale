@@ -1,6 +1,7 @@
 CC := gcc
 LD := ld
 OBJCOPY := objcopy
+AS := nasm
 
 SRC_DIR := src
 SCRIPTS_DIR := scripts
@@ -13,6 +14,7 @@ FONT_BIN := $(BUILD)/font.bin
 FONT_OBJ := $(BUILD)/font.o
 
 CFLAGS := -ffreestanding -fno-stack-protector -fno-pic -m64 -mcmodel=kernel -mno-red-zone -O2 -Wall -Wextra -I$(SRC_DIR)/limine/include
+ASFLAGS := -f elf64
 LDFLAGS := -nostdlib -z max-page-size=0x1000 -T linker.ld
 
 KERNEL := $(BUILD)/kernel.elf
@@ -21,7 +23,9 @@ ISO := $(BUILD)/vale.iso
 LIMINE_BIN := limine
 
 SRC := $(shell find $(SRC_DIR) -name "*.c")
-OBJ := $(patsubst $(SRC_DIR)/%.c,$(BUILD)/%.o,$(SRC))
+ASM := $(shell find $(SRC_DIR) -name "*.asm")
+OBJ := $(patsubst $(SRC_DIR)/%.c,$(BUILD)/%.o,$(SRC)) \
+       $(patsubst $(SRC_DIR)/%.asm,$(BUILD)/%.o,$(ASM))
 
 all: $(ISO)
 
@@ -39,6 +43,10 @@ $(FONT_OBJ): $(FONT_BIN)
 $(BUILD)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
+
+$(BUILD)/%.o: $(SRC_DIR)/%.asm
+	mkdir -p $(dir $@)
+	$(AS) $(ASFLAGS) $< -o $@
 
 $(ISO_DIR): $(KERNEL)
 	rm -rf $(ISO_DIR)
@@ -64,7 +72,9 @@ $(ISO): $(ISO_DIR)
 	$(LIMINE_BIN) bios-install $(ISO)
 
 run: $(ISO)
-	qemu-system-x86_64 -drive if=pflash,format=raw,unit=0,file=/usr/share/ovmf/x64/OVMF.4m.fd,readonly=on -cdrom $(ISO)
+	qemu-system-x86_64 -d int,cpu_reset -D qemu.log -no-reboot \
+    -drive if=pflash,format=raw,unit=0,file=/usr/share/ovmf/x64/OVMF.4m.fd,readonly=on \
+    -cdrom $(ISO)
 
 clean:
 	rm -rf $(BUILD)

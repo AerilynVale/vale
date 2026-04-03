@@ -1,1 +1,8 @@
+# build files
 /build
+
+# logging
+qemu.log
+
+# editor settings
+/.vscode
