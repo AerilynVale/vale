@@ -1,9 +1,12 @@
 # Vale
 
-Vale is a 64-bit operating system available for the x86_64 architecture. 
+Vale is a 64-bit operating system available for the x86_64 architecture.  
 At its current state, Vale is extremely limited and has not yet been tested on real hardware.
 
 I plan to make Vale Unix-like and POSIX-complaint.
+
+I *do not* plan to ever make Vale UNIX certified, nor do I plan to make Vale a part of the GNU Project for now.  
+Vale is an independant operating system with no current intentions of replacing existing systems such as GNU/Linux.
 
 ## License
 
@@ -29,6 +32,9 @@ Required build tools:
 * GNU Linker `ld`
 * Xorriso `xorriso`
 * Limine 11 `limine`
+
+Optionally:
+
 * QEMU `qemu-system-x86_64` if you want to emulate Vale.
 
 In the project root, simply run `make`; an ISO file will be generated in ./build.

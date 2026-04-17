@@ -13,7 +13,7 @@ FONT_HEX := $(BIN_DIR)/unifont_all-17.0.04.hex
 FONT_BIN := $(BUILD)/font.bin
 FONT_OBJ := $(BUILD)/font.o
 
-CFLAGS := -ffreestanding -fno-stack-protector -fno-pic -m64 -mcmodel=kernel -mno-red-zone -O2 -Wall -Wextra -I$(SRC_DIR)/limine/include
+CFLAGS := -ffreestanding -fno-stack-protector -fno-pic -m64 -mcmodel=kernel -mno-red-zone -mno-sse -mno-sse2 -mno-mmx -mno-80387 -O2 -Wall -Wextra -I$(SRC_DIR)/limine/include
 ASFLAGS := -f elf64
 LDFLAGS := -nostdlib -z max-page-size=0x1000 -T linker.ld
 
