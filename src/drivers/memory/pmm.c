@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 #include "pmm.h"
 
 uint64_t hhdm_offset = 0;
@@ -85,7 +87,6 @@ void init_pmm(void) {
     bitmap_pages = align_up_4k(bitmap_bytes) / 4096ULL;
 
     uint64_t chosen_base = 0;
-    uint64_t chosen_size = 0;
     int found = 0;
 
     for (uint64_t i = 0; i < map->entry_count; i++) {
@@ -108,7 +109,6 @@ void init_pmm(void) {
 
         if ((end - start) >= bitmap_pages * 4096ULL) {
             chosen_base = start;
-            chosen_size = end - start;
             found = 1;
             break;
         }

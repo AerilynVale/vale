@@ -22,6 +22,8 @@ static size_t cursor_y = 0;
 static size_t cols;
 static size_t rows;
 
+static uint32_t back;
+
 void init_fb(void) {
     if (!framebuffer_request.response ||
         framebuffer_request.response->framebuffer_count < 1) {
@@ -35,6 +37,8 @@ void init_fb(void) {
 }
 
 void clear(uint32_t color) {
+    back = color;
+
     uint32_t *dst = (uint32_t *)fb->address;
 
     for (size_t i = 0; i < (fb->pitch / 4) * fb->height; i++) {
@@ -87,7 +91,7 @@ static void draw_char(char c, size_t cx, size_t cy, uint32_t fg, uint32_t bg) {
 }
 
 void put_char(char c, uint32_t color) {
-    uint32_t bg = 0x00000000;
+    uint32_t bg = back;
 
     switch (c) {
         case '\n':
